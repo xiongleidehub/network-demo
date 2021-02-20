@@ -1,0 +1,15 @@
+#判断网络子网掩码合法性
+def validateNetmask(ipAddr):
+	if ipAddr in ['','0.0.0.0']:
+		return False
+	packedIP = socket.inet_aton(ipAddr)
+	ip = struct.unpack("!L", packedIP)[0]
+	mask = bin(ip)[2:]
+	seen0 = False
+	for c in mask:
+		if '1' == c:
+			if seen0:
+				return False
+		else:
+			seen0 = True
+	return True
